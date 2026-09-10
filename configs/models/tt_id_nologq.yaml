@@ -1,0 +1,16 @@
+model: two_tower
+dim: 128
+max_len: 50
+tau: 0.05
+logq: false
+extra_neg: 0
+mixgcf: 0.0
+cross_layers: 0
+p_id: 0.0
+heads: 1
+lr: 0.001
+wd: 1e-06
+batch: 1024
+epochs: 60
+patience: 6
+samples_per_user: 0

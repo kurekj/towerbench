@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use towerbench, please cite it as below."
+title: "towerbench: A frozen-protocol benchmark harness for two-tower retrieval and autoencoder recommenders with paired bootstrap statistics on public implicit-feedback data"
+version: 1.0.0
+date-released: 2026-09-04
+license: MIT
+repository-code: https://github.com/kurekj/towerbench
+authors:
+  - family-names: Bieniek
+    given-names: Mateusz
+    affiliation: "Department of Artificial Intelligence, Institute of Information Technology, Warsaw University of Life Sciences (SGGW), Warsaw, Poland"
+  - family-names: Kanabus
+    given-names: Bartłomiej
+    affiliation: "Department of Artificial Intelligence, Institute of Information Technology, Warsaw University of Life Sciences (SGGW), Warsaw, Poland"
+  - family-names: Kozłowski
+    given-names: Aleksander
+    affiliation: "Department of Artificial Intelligence, Institute of Information Technology, Warsaw University of Life Sciences (SGGW), Warsaw, Poland"
+  - family-names: Kurek
+    given-names: Jarosław
+    affiliation: "Department of Artificial Intelligence, Institute of Information Technology, Warsaw University of Life Sciences (SGGW), Warsaw, Poland"
+keywords:
+  - recommender systems
+  - two-tower retrieval
+  - autoencoder
+  - benchmark
+  - bootstrap
+  - reproducibility

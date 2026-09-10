@@ -1,0 +1,18 @@
+# Exact versions used for every result reported in the paper (deep3, Ubuntu 24.04, Python 3.11.x,
+# CUDA 12.8).  `pip install -r requirements-lock.txt` reproduces the environment; for CPU-only use
+# replace the torch line with: torch==2.11.0 --index-url https://download.pytorch.org/whl/cpu
+--extra-index-url https://download.pytorch.org/whl/cu128
+torch==2.11.0+cu128
+numpy==2.4.6
+pandas==3.0.5
+pyarrow==25.0.1
+scipy==1.17.1
+scikit-learn==1.9.0
+sentence-transformers==6.0.1
+transformers==5.16.1
+tqdm==4.70.0
+PyYAML==6.0.3
+typer==0.27.2
+rich==15.0.0
+statsmodels==0.15.0
+matplotlib==3.11.1

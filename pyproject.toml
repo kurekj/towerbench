@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "towerbench"
+version = "0.1.0"
+description = "Frozen-protocol, statistically rigorous benchmarking of two-tower retrieval vs autoencoder recommenders on public datasets"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Mateusz Bieniek"}, {name = "Bartlomiej Kanabus"}, {name = "Aleksander Kozlowski"}, {name = "Jaroslaw Kurek", email = "jaroslaw_kurek@sggw.edu.pl"}]
+dependencies = [
+  "torch>=2.2", "numpy", "pandas", "pyarrow", "scipy", "scikit-learn",
+  "sentence-transformers", "tqdm", "pyyaml", "typer", "rich", "statsmodels",
+]
+
+[project.scripts]
+towerbench = "towerbench.cli:app"
+
+[tool.setuptools.packages.find]
+include = ["towerbench*"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/*" = ["E501", "E702", "B905"]
+"tests/*" = ["E501"]

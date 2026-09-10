@@ -1,0 +1,9 @@
+# Frozen per-dataset protocol constants. k-core follows the literature defaults for each source.
+ml-1m:              {k_user: 5,  k_item: 5,  val_days: 90,  test_days: 90}
+amazon-instruments: {k_user: 5,  k_item: 5,  val_days: 180, test_days: 180}
+amazon-videogames:  {k_user: 5,  k_item: 5,  val_days: 180, test_days: 180}
+amazon-software:    {k_user: 5,  k_item: 5,  val_days: 180, test_days: 180}
+gowalla:            {k_user: 10, k_item: 10, val_days: 60,  test_days: 60}
+airbnb:             {k_user: 3,  k_item: 5,  val_days: 180, test_days: 180}
+airbnb-nyc:         {k_user: 3,  k_item: 5,  val_days: 180, test_days: 180}
+steam:              {k_user: 5,  k_item: 5,  val_days: 180, test_days: 180, max_users: 200000}
