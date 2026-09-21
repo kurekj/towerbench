@@ -1,0 +1,11 @@
+# conda environment of the sweep (exact package versions are in requirements-lock.txt):
+#   conda env create -f environment.yml && conda activate towerbench
+name: towerbench
+channels: [conda-forge]
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - --extra-index-url https://download.pytorch.org/whl/cu128
+      - -r requirements-lock.txt
+      - -e .

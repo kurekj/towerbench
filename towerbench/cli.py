@@ -32,9 +32,10 @@ def embed(dataset: str, model: str = "BAAI/bge-base-en-v1.5", device: str = "cud
 
 @app.command()
 def run(dataset: str, model_cfg: str, seed: int = 0, protocol: str = "loo", window: int = 0,
-        device: str = "cuda", n_boot: int = 2000, overwrite: bool = False):
+        device: str = "cuda", n_boot: int = 2000, overwrite: bool = False, noise: float = 0.0):
+    """One experiment; ``--noise 0.1`` replaces 10% of the training events by random items."""
     from .run import run as _run
-    res = _run(dataset, model_cfg, seed, protocol, window, device, n_boot, overwrite=overwrite)
+    res = _run(dataset, model_cfg, seed, protocol, window, device, n_boot, overwrite=overwrite, noise=noise)
     t = res["test"]
     rprint(f"[bold]{dataset} {res['protocol']} {model_cfg} seed{seed}[/bold] "
            f"n={res['n_test_users']} NDCG@10={t['ndcg@10']['mean']:.4f} "

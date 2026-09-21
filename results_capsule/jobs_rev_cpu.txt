@@ -1,0 +1,6 @@
+airbnb loo 0 ease_lam50 0
+airbnb loo 0 ease_lam200 0
+airbnb loo 0 ease_lam1000 0
+airbnb loo 0 ease_lam2000 0
+airbnb loo 0 ease_lam10 0
+airbnb loo 0 ease_lam20 0

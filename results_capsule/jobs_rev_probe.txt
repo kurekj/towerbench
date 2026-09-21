@@ -1,0 +1,2 @@
+gowalla loo 0 lightgcn_e300 0
+amazon-videogames loo 0 lightgcn_e300 0

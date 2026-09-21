@@ -15,13 +15,15 @@ from .data.prepare import load_prepared
 from .eval.metrics import catalog_metrics, per_user_metrics
 from .eval.protocol import make_split
 from .eval.stats import bootstrap_ci
+from .models.lightgcn import LightGCN
 from .models.multvae import MultVAE
 from .models.sasrec import SASRec
 from .models.simple import EASE, Popularity
 from .models.two_tower import TwoTower
 from .paths import PREPARED, RESULTS
 
-MODELS = {"pop": Popularity, "ease": EASE, "multvae": MultVAE, "two_tower": TwoTower, "sasrec": SASRec}
+MODELS = {"pop": Popularity, "ease": EASE, "multvae": MultVAE, "two_tower": TwoTower, "sasrec": SASRec,
+          "lightgcn": LightGCN}
 
 CFG_DIR = Path(__file__).resolve().parent.parent / "configs"
 
@@ -36,9 +38,25 @@ def dataset_cfg(name: str) -> dict:
     return allc.get(name, {})
 
 
+def inject_noise(train: pd.DataFrame, rate: float, n_items: int, seed: int) -> pd.DataFrame:
+    """Training-split noise switch: replace a fraction ``rate`` of the training events, chosen
+    uniformly at random, by events on uniformly random items for the same users at the same
+    timestamps (unreliable feedback).  Validation and test splits are never touched."""
+    rng = np.random.default_rng(1000 + seed)
+    n = int(round(rate * len(train)))
+    if n == 0:
+        return train
+    train = train.reset_index(drop=True).copy()
+    idx = rng.choice(len(train), n, replace=False)
+    # keep the column dtype: pandas 3 refuses to upcast an int32 column when int64 values are assigned
+    train.loc[idx, "i"] = rng.integers(0, n_items, n).astype(train["i"].dtype)
+    return train.drop_duplicates(["u", "i"], keep="last").reset_index(drop=True)
+
+
 def run(dataset: str, model_cfg: str, seed: int = 0, protocol: str = "loo", window: int = 0,
-        device: str = "cuda", n_boot: int = 2000, k: int = 50, overwrite: bool = False) -> dict:
-    tag = f"{protocol}" + (f"_w{window}" if protocol == "temporal" else "")
+        device: str = "cuda", n_boot: int = 2000, k: int = 50, overwrite: bool = False,
+        noise: float = 0.0) -> dict:
+    tag = f"{protocol}" + (f"_w{window}" if protocol == "temporal" else "") + (f"_noise{noise:g}" if noise else "")
     out = RESULTS / dataset / tag / model_cfg / f"seed{seed}"
     if (out / "metrics.json").exists() and not overwrite:
         return json.loads((out / "metrics.json").read_text())
@@ -55,6 +73,8 @@ def run(dataset: str, model_cfg: str, seed: int = 0, protocol: str = "loo", wind
     n_u, n_i = stats["n_users"], stats["n_items"]
     split = make_split(inter, n_u, n_i, protocol, dcfg.get("train_days"), dcfg.get("val_days", 90),
                        dcfg.get("test_days", 90), window)
+    if noise:
+        split.train, split.meta["noise"] = inject_noise(split.train, noise, n_i, seed), noise
     train = split.csr("train")
     item_pop = np.asarray(train.sum(axis=0)).ravel()
     val_users, val_pos = split.eval_users("val"), split.positives("val")
